@@ -5,26 +5,34 @@ void Interpreter::eval(NBlock& root) {
   root.eval();
 }
 
-// Value NBlock::eval() {
-//   Value return_value = { 0, 'i' };
-//   StatementList::const_iterator it;
-//   for(it = statements.begin(); it != statements.end(); it++) {
-//     std::cout << typeid(**it).name() << std::endl;
-//     (**it).eval();
-//   }
-//   return return_value;
-// }
-// 
-// Value NBinaryOperator::eval() {
-//   Value return_value = { 0, 'i' };
-//   std::cout << op << std::endl;
-//   std::cout << "BINARY" << std::endl;
-//   return return_value;
-// }
-// 
-// Value NExpressionStatement::eval() {
-//   Value return_value = { 0, 'i' };
-//   std::cout << typeid(expression).name() << std::endl;
-//   expression.eval();
-//   return return_value;
-// }
+Value NBlock::eval() {
+  Value return_value = { 0, 'i' };
+  StatementList::const_iterator it;
+  for(it = statements.begin(); it != statements.end(); it++) {
+    (**it).eval();
+  }
+  return return_value;
+}
+
+Value NExpressionStatement::eval() {
+  Value return_value = { 0, 'i' };
+  expression.eval();
+  return return_value;
+}
+
+Value NBinaryOperator::eval() {
+  Value return_value = { 0, 'i' };
+  Value lhs_value = lhs.eval();
+  Value rhs_value = rhs.eval();
+  switch(op) {
+    case 1:
+      std::cout << (lhs_value.value.integerVal + rhs_value.value.integerVal) << std::endl;
+      break;
+  }
+  return return_value;
+}
+
+Value NInteger::eval() {
+  Value return_value = { value, 'i' };
+  return return_value;
+}

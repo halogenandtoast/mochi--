@@ -18,10 +18,7 @@ typedef struct value_t Value;
 class Node {
   public:
     virtual ~Node() {}
-    virtual Value eval() {
-      Value return_value = { 0, 'i' };
-      return return_value;
-    };
+    virtual Value eval() {};
 };
 
 class NExpression : public Node {
@@ -34,6 +31,7 @@ class NInteger : public NExpression {
   public:
     long long value;
     NInteger(long long value) : value(value) {}
+    virtual Value eval();
 };
 
 class NBinaryOperator : public NExpression {
